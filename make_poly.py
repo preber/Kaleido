@@ -290,7 +290,7 @@ class kaleido:
         print self.r
 
     def save_img(self,num=1):
-        surface=Image.new('RGB',size)
+        surface=Image.new('RGB',self.size)
         im=ImageDraw.Draw(surface)
         self.draw(im)
         if self.distort==0:
@@ -364,6 +364,9 @@ class StimulusSet:
         
     def fix_color(self,color_list=[]):
         self.fixedColor=True
+        if color_list==[]:
+            for i in range(0,self.nPoly):
+                color_list.append(random_color())
         self.colorScheme=color_list
     
     def set_kaleido(self,poly_type,npoly,scale,zoom,num_deflect,deflect_size):
@@ -449,6 +452,7 @@ random.seed()
 S=StimulusSet(num_images=10,canvas_size=(800,800))
 S.set_kaleido(poly_type='r',npoly=3,scale=1.5,zoom=0.7,num_deflect=4,deflect_size=90)
 S.add_sisters(sister_distance=10,num_sisters=3)
+S.fix_color()
 S.make_set('kaleido')
 S.fix_size()
 S.write_images(overwrite=True)
